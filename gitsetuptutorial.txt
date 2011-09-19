@@ -1,0 +1,61 @@
+Git setup tutorial
+I assume that most of you are unfamiliar with git, and many of you have never used any other version control tool (e.g. CVS, SVN, Hg, Bazaar).
+Here are some instructions on how to set up your git repository for collatz. Please note that while they are similar to the instructions that Assembla provides, they do differ slightly; I have noted where below.
+
+This document assumes that you have already set up your Assembla space for Collatz. It assumes that you have either installed git on your machine, or are using the UTCS Linux lab machines.
+
+0) Set up your SSH public key (if you do not already have one):
+$ ssh-keygen -t rsa
+Follow the instructions, and use the default values (unless you have good reasons for doing otherwise)---pressing Enter will let you pick them without extra typing for the most part.
+
+Then navigate to http://www.assembla.com/user/ssh_keys and either paste the results of (ensuring that your terminal window is full screen):
+$ cat ~/.ssh/id_rsa.pub
+
+or click Choose File and select the id_rsa.pub from your
+.ssh directory. Then click upload.
+
+1) Inform git of your name, so that your log messages are more human-readable:
+$ git config --global user.name "<your name>"
+$ git config --global user.email "<your email>"
+
+2) Create a local repository, and an empty first commit:
+$ mkdir <your repository name>
+$ cd <your repository name>
+$ git init
+$ git commit --allow-empty -m "Initialize empty repository"
+
+Note: the Assembla instructions do not create an empty first commit. If you have already followed the Assembla instructions, do not worry.
+For projects 2-5, you must follow mine, however. In particular, you must ensure that git init is immediately followed by git commit --allow-empty -m "Initialize empty repository".
+
+
+//*IMPORTANT****************************************
+3) Configure your local repository with information about how to reach Assembla:
+$ git remote add origin <your assmebla push/clone url>
+$ git config branch.master.remote origin
+$ git config branch.master.merge "refs/heads/master"
+$ git config remote.origin.fetch "+refs/heads/*:remotes/origin/*"
+
+Note: the git config commands above are not in the Assembla instructions.
+This is because they are not strictly required, but I find them to be immensely helpful, and they reduce the number of warnings git tends to spit out later on.
+/********************************************
+
+
+4) "Push" your repository to your Assembla space.
+$ git push origin master:master
+
+Here is a concrete example/recap. It show me setting up my Assembla repository for the collatz project:
+$ git config --global user.name "Arun Seehra"
+$ git config --global user.email "aseehra@cs.utexas.edu"
+$ mkdir aseehra-cs373-collatz
+$ cd aseehra-cs373-collatz
+$ git init
+$ git commit --allow-empty -m "Initialize empty repository"
+$ git remote add origin git@git.assembla.com:aseehra-cs373-collatz.git
+$ git config branch.master.remote origin
+$ git config branch.master.merge "refs/heads/master"
+$ git config remote.origin.fetch "+refs/heads/*:remotes/origin/*"
+$ git push origin master:master
+
+Feel free to come to my office hours (once announced) if you need more help with git.
+However, I ask that you first (briefly) read through either sections 1.1-1.3 of Pro Git, or alternatively look at "Git for Designers" (http://hoth.entp.com/output/git_for_designers.html), especially if you have never used a version control system before.
+I should note that there are additional git-related resources on my website (http://www.cs.utexas.edu/~aseehra/) if you are interested.
