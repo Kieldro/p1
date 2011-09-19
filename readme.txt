@@ -4,4 +4,4 @@ UT EIDS: ib
 			Kalemiturd
 SECTIONS: 52405
 			52415
-CODING STATUS: does not compile, all files created with headers;
+CODING STATUS: Compiles, LowerBound is a mere skeleton. Part 2 hasn't been touched;
