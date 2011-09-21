@@ -28,7 +28,7 @@ cmp test test.cpz.dcz
 //swap every ~30 min
 
 public class LZcoding {
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws Exception{
   	//assertion
     assert(args.length == 2);
     assert(args[0].charAt(0) == 'c' || args[0].charAt(0) == 'd');
@@ -38,13 +38,36 @@ public class LZcoding {
   	char type = args[0].charAt(0);
   	String file = args[1];
   	
-  	//IO object
-  	//try exception
-  	IO.Compressor compressor = new IO.Compressor(file);
-  	char[] charArray = compressor.getCharacters();
-  	}
+  	//Compress or decompress file based on the input
+  	if(type == 'c')
+	    compress(file);
+    else if(type == 'd')
+      decompress(file);
+  }
+  
+  public static void compress(String file) throws Exception{
+    IO.Compressor compressor = new IO.Compressor(file);
+    char[] charArray = compressor.getCharacters();
+    
+    //Trie dictionary = new Trie();
+    //for(int i =0; i< charArray.length; i++){}
+      
+   
+   }
+   public static void decompress(String file) throws Exception{
+    
+      
+   
+   }
 }
 
-/* EX output
-The lower bound is 61.700; the entropy is 1.234
-*/
+class TrieNode{
+  private String word;
+  private int index;
+  
+  public TrieNode(String word, int index){
+    this.word = word;
+    this.index = index;
+  }
+}
+  
