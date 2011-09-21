@@ -1,4 +1,4 @@
-Git setup tutorial
+it setup tutorial
 I assume that most of you are unfamiliar with git, and many of you have never used any other version control tool (e.g. CVS, SVN, Hg, Bazaar).
 Here are some instructions on how to set up your git repository for collatz. Please note that while they are similar to the instructions that Assembla provides, they do differ slightly; I have noted where below.
 
