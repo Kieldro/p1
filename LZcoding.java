@@ -15,8 +15,12 @@ Learned:
 Notes:
 run with commands:
 javac LZcoding.java
-java -ea c smaller.txt
-java -ea d smaller.txt
+java -ea LZcoding c test
+java -ea LZcoding d test.cpz
+
+To compare the files: 
+cmp test test.cpz.dcz
+
 2 space indent (google standard)
 */
 
