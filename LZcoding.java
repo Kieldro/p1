@@ -26,6 +26,7 @@ cmp test test.cpz.dcz
 
 //Ervin driving now
 //swap every ~30 min
+import java.util.HashMap; 
 
 public class LZcoding {
   public static void main(String[] args) throws Exception{
@@ -51,7 +52,7 @@ public class LZcoding {
     // Convert file to an array of characters
     char[] charArray = compressor.getCharacters();
     // Create a dictionary
-    Trie dictionary = new Trie();
+    HashMap dictionary = new HashMap<String, TrieNode>();
     // Initial null string to lookup in the file
     String lookup = "";
     
@@ -60,13 +61,13 @@ public class LZcoding {
       // Appand the next character to the lookup string
       lookup += charArray[i];
       // If the new string formed is not in the dictionary 
-      if(!dictionary.contains(lookup)){
+      if(!dictionary.containsKey(lookup)){
         // If the new string is just a character
         if(lookup.length() == 1){
           // Create a transmission node with index 0 and that character
           TrieNode node = new TrieNode(0, lookup);
           // Add that node to the dictionary trie
-          dictionary.add(node);
+          dictionary.put(lookup, node);
           // Run encode on that character
           compressor.encode(0, charArray[i]);
           // Re-initialize the lookup string
