@@ -26,6 +26,7 @@ cmp test test.cpz.dcz
 
 //Ervin driving now
 //swap every ~30 min
+import java.util.HashMap; 
 
 
 public class LZcoding {
@@ -37,7 +38,6 @@ public class LZcoding {
 		if(DEBUG) System.out.println("main invoked.");
 		
 		long start = System.currentTimeMillis();	// Get current time
-		
   	//assertion
     assert(args.length == 2);
     assert(args[0].charAt(0) == 'c' || args[0].charAt(0) == 'd');
@@ -47,40 +47,83 @@ public class LZcoding {
   	char type = args[0].charAt(0);
   	String file = args[1];
   	
-  	//compression
-  	compress(file);
-  	
-  	long elapsedTime = System.currentTimeMillis()-start;		// Get elapsed time in milliseconds
-  	if(DEBUG) System.out.println("elapsed run time: " + elapsedTime + "ms");
-  	}
-
-	/* inFile is the name of the file to be compressed */
-	public static void compress(String inFile) throws Exception {
-		/* Initialize a IO.Compressor object */
-		IO.Compressor compressor = new IO.Compressor(inFile);
-		IO.Decompressor decompressor = new IO.Decompressor(inFile);
-		/* Read all characters from the input file to a character array */
-		char[] charArray = compressor.getCharacters();
-		
-		
-		
-		/* Perform compression on the array charArray,
-		* this part may call io.encode(...) several times
-		*/
-		if(DEBUG) System.out.println("char[0] " + charArray[0]);
-		compressor.encode(0, charArray[0]);
-		
-		
-		decompressor.append("");
-		
-		
-		
-		/* Close all relevant files */
-		compressor.finalize();
-		if(DEBUG) System.out.println("Compression done.");
-	}
+  	//Compress or decompress file based on the input
+  	if(type == 'c')
+	    compress(file);
+    else if(type == 'd')
+      decompress(file);
+  }
+  
+  public static void compress(String file) throws Exception{
+    // IO compressor on the file
+    IO.Compressor compressor = new IO.Compressor(file);
+    // Convert file to an array of characters
+    char[] charArray = compressor.getCharacters();
+    // Create a dictionary
+    HashMap dictionary = new HashMap<String, TrieNode>();
+    // Initial null string to lookup in the file
+    String lookup = "";
+    int counter = 1;
+    // For every character in the array of characters run encode
+    for (int i= 0; i < charArray.length; i++){
+      // Appand the next character to the lookup string
+      lookup += charArray[i];
+      // If the new string formed is not in the dictionary 
+      if(!dictionary.containsKey(lookup)){
+      
+        // If the new string is just a character
+        if(lookup.length() == 1){
+          // Create a transmission node based on the counter and that character
+          TrieNode node = new TrieNode(counter, lookup);
+          // Add that node to the dictionary trie
+          dictionary.put(lookup, node);
+          // Run encode on that character with index 0
+          compressor.encode(0, charArray[i]);
+          // Re-initialize the lookup string and increment counter
+          lookup = "";
+          counter++;
+          
+        } // Else the new string is not a character, so we have to find it's parent
+        else{
+          // Get the parent of the new formed string
+          String parent = lookup.substring(0, lookup.length()-1);
+          // From the dictionary lookup the TrieNode that has the key parent
+          // And get the index of that node in the transmission
+          int index = ((TrieNode)dictionary.get(parent)).getIndex();
+          // Create a new TrieNode based on the counter and the new string 
+          // and add it to the dictionary.
+          TrieNode node = new TrieNode(counter, lookup);
+          dictionary.put(lookup, node);
+          // Run incode on the last character of the lookup string
+          compressor.encode(index, lookup.charAt(lookup.length()-1));
+          // Re-initialize the lookup string and increment counter
+          lookup = "";
+          counter++;
+        }
+      }    
+    }
+    // Finalize compressor
+    compressor.finalize();
+  }
+   
+   
+   public static void decompress(String file) throws Exception{
+    
+      
+   
+   }
 }
 
-/* EX output
-test.cpz
-*/
+class TrieNode{
+  private String word;
+  private int index;
+  
+  public TrieNode(int index, String word){
+    this.word = word;
+    this.index = index;
+  }
+  
+  public int getIndex(){
+    return this.index;
+  }
+}
