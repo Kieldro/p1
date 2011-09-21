@@ -12,6 +12,9 @@ Challenges: Trying to calculate the entropy when the number of occurence of
 one of the characters was zero. It returned NaN. To fix this, we checked if the occurence
 of the character wasn't zero we running the entropy formula.
 
+We had to cast the size of int[] occurense to double, in order to get the probability as a
+double. Otherwise the probability would be an int, resulting in a wrong entropy.
+
 Learned: To round a number to certain decimals, you simply do 
 round that number * 10^(#decimals), and divide that number by
 10^(#decimals).
