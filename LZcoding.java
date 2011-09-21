@@ -55,27 +55,42 @@ public class LZcoding {
     HashMap dictionary = new HashMap<String, TrieNode>();
     // Initial null string to lookup in the file
     String lookup = "";
-    
+    int counter = 1;
     // For every character in the array of characters run encode
     for (int i= 0; i < charArray.length; i++){
       // Appand the next character to the lookup string
       lookup += charArray[i];
       // If the new string formed is not in the dictionary 
       if(!dictionary.containsKey(lookup)){
+      
         // If the new string is just a character
         if(lookup.length() == 1){
-          // Create a transmission node with index 0 and that character
-          TrieNode node = new TrieNode(0, lookup);
+          // Create a transmission node based on the counter and that character
+          TrieNode node = new TrieNode(counter, lookup);
           // Add that node to the dictionary trie
           dictionary.put(lookup, node);
-          // Run encode on that character
+          // Run encode on that character with index 0
           compressor.encode(0, charArray[i]);
-          // Re-initialize the lookup string
+          // Re-initialize the lookup string and increment counter
           lookup = "";
-        // Else the new string is not a character, so we have to find it's parent
-        }
+          counter++;
+          
+        } // Else the new string is not a character, so we have to find it's parent
         else{
-        
+          // Get the parent of the new formed string
+          String parent = lookup.substring(0, lookup.length()-1);
+          // From the dictionary lookup the TrieNode that has the key parent
+          // And get the index of that node in the transmission
+          int index = ((TrieNode)dictionary.get(parent)).getIndex();
+          // Create a new TrieNode based on the counter and the new string 
+          // and add it to the dictionary.
+          TrieNode node = new TrieNode(counter, lookup);
+          dictionary.put(lookup, node);
+          // Run incode on the last character of the lookup string
+          compressor.encode(index, lookup.charAt(lookup.length()-1));
+          // Re-initialize the lookup string and increment counter
+          lookup = "";
+          counter++;
         }
       }    
     }
@@ -90,8 +105,7 @@ public class LZcoding {
    
    }
 }
-class Trie<TrieNode>{
-}
+
 class TrieNode{
   private String word;
   private int index;
@@ -99,6 +113,10 @@ class TrieNode{
   public TrieNode(int index, String word){
     this.word = word;
     this.index = index;
+  }
+  
+  public int getIndex(){
+    return this.index;
   }
 }
   
