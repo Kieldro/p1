@@ -46,21 +46,48 @@ public class LZcoding {
   }
   
   public static void compress(String file) throws Exception{
+    // IO compressor on the file
     IO.Compressor compressor = new IO.Compressor(file);
+    // Convert file to an array of characters
     char[] charArray = compressor.getCharacters();
+    // Create a dictionary
+    Trie dictionary = new Trie();
+    // Initial null string to lookup in the file
+    String lookup = "";
     
-    //Trie dictionary = new Trie();
-    //for(int i =0; i< charArray.length; i++){}
-      
+    // For every character in the array of characters run encode
+    for (int i= 0; < charArray.length; i++){
+      // Appand the next character to the lookup string
+      lookup += charArray[i];
+      // If the new string formed is not in the dictionary 
+      if(!dictionary.contains(lookup)){
+        // If the new string is just a character
+        if(lookup.length() == 1){
+          // Create a transmission node with index 0 and that character
+          TrieNode node = new TrieNode(0, lookup);
+          // Add that node to the dictionary trie
+          dictionary.add(node);
+          // Run encode on that character
+          compressor.encode(0, charArray[]);
+          // Re-initialize the lookup string
+          lookup = "";
+        // Else the new string is not a character, so we have to find it's parent
+        else{
+        
+        }
+      }    
+    }
+  }
    
-   }
+   
    public static void decompress(String file) throws Exception{
     
       
    
    }
 }
-
+class Trie<TrieNode>{
+}
 class TrieNode{
   private String word;
   private int index;
