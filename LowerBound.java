@@ -4,7 +4,7 @@ Ervin Kalemi: Slip days used for this project: 0  Slip days used (total): 0
 
 Pair programming log (> 80% paired)
 9/19 3-4a  Ian, 1 hr
-9/19 8-10p Ian Ervin, 4 hrs
+9/20 8:30-10p Ian Ervin, 4 hrs
 
 Total time X hrs, Z hrs of pair programing
 
@@ -23,45 +23,54 @@ java -ea LowerBound smaller.txt
 //swap every ~30 min
 
 public class LowerBound {
-  public static void main(String[] args) {
+  
+	
+	static final int ASCII = 255;
+  public static void main(String[] args) throws Exception {
   	//assertion
   	boolean youRead = true;
   	assert(youRead == true);
   	
+  	
+  	
   	//testing args[]
-  	String s = null;
+  	String file = null;
   	
   	if (args.length > 0)
-  	  s = args[0];
-  	
-  	System.out.println("args[0] = " + s);
+  	  file = args[0];
   	
   	//IO object
-  	IO.Pair p = new IO.Pair(0, (char)97);
+  	//try exception
+  	IO.Compressor compressor = new IO.Compressor(file);
+  	char[] charArray = compressor.getCharacters();
   	
-  	System.out.println("char = " + (int)p.getCharacter() );
+  	//check occurence of each char
+  	int[] occurence = new int[ASCII];
+  	//Ervin driving now
+  	for(int i = 0; i < charArray.length; i++)
+  		occurence[ (int)charArray[i] ]++;
   	
-  	double e =  entropy();
-  	System.out.println("Entropy h = " + e);
+  	double e =  entropy(occurence, (double) charArray.length);  	
+  	double lowBound =  lowerBound(e, charArray.length);
   	
-  	double lowBound =  lowerBound();
-  	System.out.println("Lower bound = " + lowBound);
+  	//Print the results
+  	System.out.println("The lower bound is " + lowBound + "; the entropy is " + e);
   }
   
-  static double entropy(){
+  static double entropy(int[] occurence, double size){
     double e = 0.0;
-    
-    e = 0;
-    
-  	return e;
+    for (int i=0; i<occurence.length; i++){
+    	if(occurence[i] != 0){
+    		e -= (occurence[i]/size) * (Math.log(occurence[i]/size)/Math.log(2));
+    	}
+    }
+    e = Math.round(e * 1000);
+  	return e / 1000;
   }
   
-  static double lowerBound(){
-    double lowBound = 0;
-  	
-  	lowBound = 0;
-    
-  	return lowBound;
+  static double lowerBound(double e, int size ){
+  	double lowerBound = Math.round(size * e * 1000);
+  	return lowerBound/1000;
   }
 }
 
