@@ -56,7 +56,7 @@ public class LZcoding {
     String lookup = "";
     
     // For every character in the array of characters run encode
-    for (int i= 0; < charArray.length; i++){
+    for (int i= 0; i < charArray.length; i++){
       // Appand the next character to the lookup string
       lookup += charArray[i];
       // If the new string formed is not in the dictionary 
@@ -68,15 +68,18 @@ public class LZcoding {
           // Add that node to the dictionary trie
           dictionary.add(node);
           // Run encode on that character
-          compressor.encode(0, charArray[]);
+          compressor.encode(0, charArray[i]);
           // Re-initialize the lookup string
           lookup = "";
         // Else the new string is not a character, so we have to find it's parent
+        }
         else{
         
         }
       }    
     }
+    // Finalize compressor
+    compressor.finalize();
   }
    
    
@@ -92,7 +95,7 @@ class TrieNode{
   private String word;
   private int index;
   
-  public TrieNode(String word, int index){
+  public TrieNode(int index, String word){
     this.word = word;
     this.index = index;
   }
