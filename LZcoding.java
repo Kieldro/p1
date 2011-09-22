@@ -28,8 +28,16 @@ cmp test test.cpz.dcz
 //swap every ~30 min
 import java.util.HashMap; 
 
+
 public class LZcoding {
-  public static void main(String[] args) throws Exception{
+	
+	private static final boolean DEBUG = true;
+
+  public static void main(String[] args) throws Exception {
+  	
+		if(DEBUG) System.out.println("main invoked.");
+		
+		long start = System.currentTimeMillis();	// Get current time
   	//assertion
     assert(args.length == 2);
     assert(args[0].charAt(0) == 'c' || args[0].charAt(0) == 'd');
@@ -119,4 +127,3 @@ class TrieNode{
     return this.index;
   }
 }
-  
