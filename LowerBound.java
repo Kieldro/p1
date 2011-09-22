@@ -28,6 +28,8 @@ java -ea LowerBound smaller.txt
 
 //Ian driving now
 //swap every ~30 min
+import java.io.*; 
+
 public class LowerBound {
 	static final int ASCII = 255;
     
@@ -38,8 +40,7 @@ public class LowerBound {
     String file = args[0];
   	
   	//IO object
-  	IO.Compressor compressor = new IO.Compressor(file);
-  	char[] charArray = compressor.getCharacters();
+  	char[] charArray = getCharacters(file);
   	
   	//check occurence of each char
   	int[] occurence = new int[ASCII];
@@ -71,6 +72,28 @@ public class LowerBound {
     // Round the lower bound to three decimals and return it
   	double lowerBound = Math.round(size * e * 1000);
   	return lowerBound/1000;
+  }
+  
+  // Function copied from IO.file. 
+  // Copied so that when computing the lowerbound there won't be
+  // any empty encoded file created.
+  public static char[] getCharacters(String file) throws Exception {
+	  File inFile = new File(file);
+	  char[] ret = new char[(int) (inFile.length()+1)];
+	  int retCursor = 0; 
+	  FileInputStream from = new FileInputStream(inFile); 
+	
+	  while (true) {
+		  byte nextByte = (byte) from.read(); 
+		  if (nextByte == -1) 
+			  break;
+		
+		  char nextChar = (char) nextByte; 
+		  ret[retCursor++] = nextChar; 
+	  }
+	
+	  ret[(int)(inFile.length())] = '\000';
+	  return ret; 
   }
 }
 
