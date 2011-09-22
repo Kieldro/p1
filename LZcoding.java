@@ -34,6 +34,9 @@ public class LZcoding {
 	static final boolean DEBUG = true;
 	
   public static void main(String[] args) throws Exception{
+  	//measure elapsed time
+  	long start = System.currentTimeMillis();
+  	
   	//assertion
     assert(args.length == 2);
     assert(args[0].charAt(0) == 'c' || args[0].charAt(0) == 'd');
@@ -64,10 +67,10 @@ public class LZcoding {
     root.add('b', 4);
     root.add('x', 7);
     
+    if(DEBUG) System.out.println("root.c = " + root.c );
+    if(DEBUG) System.out.println("root.idx = " + root.idx );
     if(DEBUG) System.out.println("root.branch.get('b') = " + root.branch.get('b').toString() );
     if(DEBUG) System.out.println("root.branch.get('x') = " + root.branch.get('x').toString() );
-    if(DEBUG) System.out.println("root.c = " + root.getChar() );
-    if(DEBUG) System.out.println("root.idx = " + root.getIdx() );
     
     
     /*
@@ -123,7 +126,7 @@ public class LZcoding {
 	  int idx;
 	  HashMap<Character, trieNode> branch;
 	  
-	  public trieNode(char c, int i){
+	  trieNode(char c, int i){
 	    this.c = c;
 	    idx = i;
 	    branch = new HashMap<Character,trieNode>();
