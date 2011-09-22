@@ -45,8 +45,10 @@ public class LowerBound {
   	//check occurence of each char
   	int[] occurence = new int[ASCII];
   	//Ervin driving now
-  	for(int i = 0; i < charArray.length; i++)
+  	for(int i = 0; i < charArray.length; i++){
   		occurence[ (int)charArray[i] ]++;
+  		System.out.println(charArray[i]);
+		}
   	// Calculate entropy and lower bound
   	double e =  entropy(occurence, (double) charArray.length);  	
   	double lowBound =  lowerBound(e, charArray.length);

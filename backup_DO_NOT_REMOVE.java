@@ -28,7 +28,7 @@ cmp test test.cpz.dcz
 //swap every ~30 min
 import java.util.HashMap;
 import java.util.ArrayList;  
-public class LZcoding {
+public class backup_DO_NOT_REMOVE {
   public static void main(String[] args) throws Exception{
   	//assertion
     assert(args.length == 2);
