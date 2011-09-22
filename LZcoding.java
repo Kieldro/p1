@@ -26,11 +26,13 @@ cmp test test.cpz.dcz
 
 //Ervin driving now
 //swap every ~30 min
-import java.util.Hashtable;
-import java.util.ArrayList;  
+import java.util.HashMap;
+import java.util.ArrayList;
+
 public class LZcoding {
 	
 	static final boolean DEBUG = true;
+	
   public static void main(String[] args) throws Exception{
   	//assertion
     assert(args.length == 2);
@@ -117,14 +119,14 @@ public class LZcoding {
   
 	// The Node holds the word and the index of that word in the dictionary
 	public static class trieNode{
-	  private char c;
-	  private int idx;
-	  Hashtable<Character, trieNode> branch;
+	  char c;
+	  int idx;
+	  HashMap<Character, trieNode> branch;
 	  
 	  public trieNode(char c, int i){
 	    this.c = c;
 	    idx = i;
-	    branch = new Hashtable<Character,trieNode>();
+	    branch = new HashMap<Character,trieNode>();
 	  }
 	  
 	  public void add (char c, int i){
@@ -135,14 +137,14 @@ public class LZcoding {
 	  public String toString (){		//for debugging
 	    return "(" + c + ", " + idx + ")";
 	  }
-	  
+	  /*
 	  public char getChar (){
 	    return c;
 	  }
 	  
 	  public int getIdx (){
 	    return idx;
-	  }
+	  }*/
 	  
 	}
 
@@ -152,7 +154,7 @@ public class LZcoding {
     IO.Decompressor io = new IO.Decompressor(file);
     ArrayList<String> dictionary = new ArrayList<String>();
     dictionary.add("Foo String, since dictionary[0] will never be user");
-    
+   /* 
     // Get the first pair and start the counter
     IO.Pair next = io.decode();
     int counter = 1;
@@ -180,6 +182,8 @@ public class LZcoding {
       // Get the next pair
       next = io.decode();      
     }
+    
+    */
     // Finalize dhe decompressor
     io.finalize();
    }
