@@ -4,7 +4,7 @@ Ervin Kalemi: Slip days used for this project: 0  Slip days used (total): 0
 
 Pair programming log (> 80% paired)
 9/19 3-4a  Ian, 1 hr
-9/20 8:30-10p Ian Ervin, 4 hrs
+9/20 1p-12a Ian Ervin, 2*11 = 22 hrs
 
 Total time X hrs, Z hrs of pair programing
 
@@ -52,6 +52,9 @@ public class LZcoding {
 	    compress(file);
     else if(type == 'd')
       decompress(file);
+    
+    long elapsed = System.currentTimeMillis() - start;
+    if(DEBUG) System.out.println("elapsed run time: "+ elapsed +"ms");
   }
   
   public static void compress(String file) throws Exception{
@@ -66,7 +69,7 @@ public class LZcoding {
     int counter = 1;
     // For every character in the array of characters run encode
     for (int i= 0; i < charArray.length; i++){
-      // Appand the next character to the lookup string
+      // Append the next character to the lookup string
       lookup += charArray[i];
       // If the new string formed is not in the dictionary 
       if(!dictionary.containsKey(lookup)){

@@ -1,2 +1,4 @@
-javac *.java
-java LZcoding c test
+javac LZcoding.java
+java -ea LZcoding c test
+#java -ea LZcoding d smaller.txt
+#cmp smaller.txt.cpz smaller.txt.dcz
