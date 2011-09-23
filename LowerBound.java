@@ -1,12 +1,16 @@
 /*
-Ian Buitrago: Slip days used for this project: 0  Slip days used (total): 0
-Ervin Kalemi: Slip days used for this project: 0  Slip days used (total): 0
+Ian Buitrago: Slip days used for this project: 1  Slip days used (total): 1
+Ervin Kalemi: Slip days used for this project: 1  Slip days used (total): 1
 
 Pair programming log (> 80% paired)
 9/19 3-4a  Ian, 1 hr
-9/20 7-12p Ian, Ervin, 5 hrs
+9/20 10-12p Ian, Ervin, 4 hrs
+9/21 12-3p Ian, Ervin, 6 hrs
+9/21 6-9p Ian, Ervin, 6 hrs
+9/21 5-6p Ervin, 1 hr
+9/22 6-8p Ian, Ervin, 4 hrs
 
-Total time 6 hrs, 5 hrs of pair programing
+Total time 22 hrs, 20 hrs of pair programing
 
 Challenges: Trying to calculate the entropy when the number of occurence of
 one of the characters was zero. It returned NaN. To fix this, we checked if the occurence
@@ -44,19 +48,17 @@ public class LowerBound {
   	
   	//check occurence of each char
   	int[] occurence = new int[ASCII];
-  	//Ervin driving now
   	for(int i = 0; i < charArray.length; i++){
   		occurence[ (int)charArray[i] ]++;
-  		System.out.println(charArray[i]);
 		}
   	// Calculate entropy and lower bound
   	double e =  entropy(occurence, (double) charArray.length);  	
   	double lowBound =  lowerBound(e, charArray.length);
   	
   	//Print the results
-  	System.out.println("The lower bound is " + lowBound + "; the entropy is " + e);
+  	System.out.println("The lower bound of "+file+" is " + lowBound + "; the entropy is " + e);
   }
-  
+	//Ervin driving now 
   static double entropy(int[] occurence, double size){
     double e = 0.0;
     // For every occurence, if any, calculate run the entropy formula

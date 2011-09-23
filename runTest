@@ -1,5 +1,11 @@
 javac LZcoding.java
+javac LowerBound.java
 javac IO.java
+java -ea LowerBound larger.txt
+java -ea LowerBound smaller.txt
 java -ea LZcoding c larger.txt
+java -ea LZcoding c smaller.txt
+java -ea LZcoding d smaller.txt.cpz
 java -ea LZcoding d larger.txt.cpz
-cmp larger.txt larger.txt.cpz.dcz
+cmp -l larger.txt larger.txt.cpz.dcz
+cmp -l smaller.txt smaller.txt.cpz.dcz
