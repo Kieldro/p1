@@ -1,4 +1,5 @@
 javac LZcoding.java
-java -ea LZcoding c test
-#java -ea LZcoding d smaller.txt
-#cmp smaller.txt.cpz smaller.txt.dcz
+javac IO.java
+java -ea LZcoding c larger.txt
+java -ea LZcoding d larger.txt.cpz
+cmp larger.txt larger.txt.cpz.dcz

@@ -29,10 +29,69 @@ cmp test test.cpz.dcz
 import java.util.HashMap;
 import java.util.ArrayList;
 
+	
+
+
+// The Node holds the word and the index of that word in the dictionary
+class trieNode{
+  String word;
+  int idx;
+  HashMap<Character, trieNode> branch;
+  
+  public trieNode(int i, String s){
+    word = s;
+    idx = i;
+    branch = new HashMap<Character,trieNode>();
+  }
+  
+  public trieNode add (int i, String s){
+    trieNode child = new trieNode(i, s);
+    Character c = new Character(s.charAt(s.length()-1));
+    branch.put(c, child); 
+    
+    return child;
+  }
+  
+  public int getIndex(){
+  	return idx;
+	}
+  
+  public String toString (){		//for debugging
+    return "(" + word + ", " + idx + ")";
+  }
+}
+
+//Trie class
+class trie{
+  trieNode root;
+  
+  public trie(trieNode node){
+    root = node;
+  }
+	
+	public trieNode contains (String s){
+		return contains(s, root);
+	}
+	
+  public trieNode contains (String s, trieNode node){
+  	char target = s.charAt(0);
+  	
+  	if(node.branch.containsKey( target) && s.length() == 1)
+  	  return node;
+  	
+  	if(node.branch.size() == 0)
+  	  return null;
+  	
+  	if( node.branch.containsKey(target) )
+  	  return contains(s.substring(1) , node.branch.get(target));
+  	
+  	return null;
+  }
+}
+
 public class LZcoding {
 	
 	static final boolean DEBUG = true;
-	
   public static void main(String[] args) throws Exception{
   	//measure elapsed time
   	long start = System.currentTimeMillis();
@@ -62,33 +121,38 @@ public class LZcoding {
     // Convert file to an array of characters
     char[] charArray = compressor.getCharacters();
     
-    // Create a dictionary
-    trieNode root = new trieNode('k', 0);
-    root.add('b', 4);
-    root.add('x', 7);
+   /* // Create a dictionary
+    trieNode root = new trieNode(0, (char)0);		//initialize root to contain null character, which represents <> empty string
+    trie dict = new trie(root);
+    trieNode n = root.add(4, 'b');		//'kb'
+    root.add(7, 'x');		//'kx'
+    n.add(3, 'r');
     
+    if(DEBUG) System.out.println("dict.root.c = " + (int)dict.root.c );
+    if(DEBUG) System.out.println("root contains \"brj\" = " + dict.contains("brj", root) );
     if(DEBUG) System.out.println("root.c = " + root.c );
     if(DEBUG) System.out.println("root.idx = " + root.idx );
     if(DEBUG) System.out.println("root.branch.get('b') = " + root.branch.get('b').toString() );
     if(DEBUG) System.out.println("root.branch.get('x') = " + root.branch.get('x').toString() );
+    */
     
     
-    /*
     // Initial null string to lookup in the file
+    final trieNode root = new trieNode(0, "");		//initialize root to contain null character, which represents <> empty string
+    trie dict = new trie(root);
     String lookup = "";
     int counter = 1;
     // For every character in the array of characters run encode
     for (int i= 0; i < charArray.length; i++){
       // Append the next character to the lookup string
       lookup += charArray[i];
-      // If the new string formed is not in the dictionary 
-      if(!dictionary.contains(lookup)){
-        // If the new string is just a character
-        if(lookup.length() == 1){
+      // If the new string formed is not in the dictionary
+      trieNode parent = dict.contains(lookup);
+      if(parent == null & lookup.length() == 1){
+        
           // Create a transmission node based on the counter and that character
-          Node trieNode = new Node(counter, lookup, (char)lookup);
           // Add that node to the dictionary trie
-          dictionary.add(trieNode);
+          root.add(counter, lookup);
           // Run encode on that character with index 0
           compressor.encode(0, charArray[i]);
           // Re-initialize the lookup string and increment counter
@@ -96,60 +160,29 @@ public class LZcoding {
           counter++;
           
         } // Else the new string is not a character, so we have to find it's parent
-        else{
-          // Get the parent of the new formed string
-          String parent = lookup.substring(0, lookup.length()-1);
-          // From the dictionary lookup the TrieNode that has the key parent
-          // And get the index of that node in the transmission
-          int index = ((TrieNode)dictionary.get(parent)).getIndex();
-          // Create a new TrieNode based on the counter and the new string 
-          // and add it to the dictionary.
-          Node trieNode = new Node(counter, lookup, lookup.charAt(lookup.length()-1));
-          dictionary.add(trieNode);
-          // Run incode on the last character of the lookup string
-          compressor.encode(index, lookup.charAt(lookup.length()-1));
-          // Re-initialize the lookup string and increment counter
-          lookup = "";
-          counter++;
-        }
-      }    
+      else{
+        // Get the parent of the new formed string
+        String previousWord = lookup.substring(0, lookup.length()-1);
+        // From the dictionary lookup the TrieNode that has the key parent
+        // And get the index of that node in the transmission
+		   	if(DEBUG) System.out.println("parent = " + parent.toString() );
+        int index = parent.getIndex();
+        // Create a new TrieNode based on the counter and the new string 
+        // and add it to the dictionary.
+        parent.add(counter, lookup);
+        // Run incode on the last character of the lookup string
+        compressor.encode(index, lookup.charAt(lookup.length()-1));
+        // Re-initialize the lookup string and increment counter
+        lookup = "";
+        counter++;
+      }
+         
     }
-    */
+    
     // Finalize compressor
     compressor.finalize();
   }
   
-  
-	// The Node holds the word and the index of that word in the dictionary
-	public static class trieNode{
-	  char c;
-	  int idx;
-	  HashMap<Character, trieNode> branch;
-	  
-	  trieNode(char c, int i){
-	    this.c = c;
-	    idx = i;
-	    branch = new HashMap<Character,trieNode>();
-	  }
-	  
-	  public void add (char c, int i){
-	    trieNode child = new trieNode(c, i);
-	    branch.put(new Character(c), child); 
-	  }
-	  
-	  public String toString (){		//for debugging
-	    return "(" + c + ", " + idx + ")";
-	  }
-	  /*
-	  public char getChar (){
-	    return c;
-	  }
-	  
-	  public int getIdx (){
-	    return idx;
-	  }*/
-	  
-	}
 
   public static void decompress(String file) throws Exception{
     // Initialize decompressor and the arrayList that will serve
@@ -157,7 +190,7 @@ public class LZcoding {
     IO.Decompressor io = new IO.Decompressor(file);
     ArrayList<String> dictionary = new ArrayList<String>();
     dictionary.add("Foo String, since dictionary[0] will never be user");
-   /* 
+ 
     // Get the first pair and start the counter
     IO.Pair next = io.decode();
     int counter = 1;
@@ -185,11 +218,11 @@ public class LZcoding {
       // Get the next pair
       next = io.decode();      
     }
-    
-    */
+ 
     // Finalize dhe decompressor
     io.finalize();
    }
    
 }
+
 

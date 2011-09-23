@@ -3,7 +3,7 @@ import java.io.*;
 
 
 public class IO {
-	public static final boolean DEBUGGING = true; // Set to TRUE to print debugging information
+	public static final boolean DEBUGGING = false; // Set to TRUE to print debugging information
 	public static final int BLOCK_SIZE = 128; // Don't touch
 	
 	// File extensions
