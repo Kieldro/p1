@@ -15,8 +15,8 @@ or click Choose File and select the id_rsa.pub from your
 .ssh directory. Then click upload.
 
 1) Inform git of your name, so that your log messages are more human-readable:
-$ git config --global user.name "<your name>"
-$ git config --global user.email "<your email>"
+$ git config --global user.name "Keo"
+$ git config --global user.email "Kieldro@gmail.com"
 
 2) Create a local repository, and an empty first commit:
 $ mkdir <your repository name>
@@ -34,6 +34,7 @@ $ git remote add origin <your assmebla push/clone url>
 $ git config branch.master.remote origin
 $ git config branch.master.merge "refs/heads/master"
 $ git config remote.origin.fetch "+refs/heads/*:remotes/origin/*"
+$ git config color.ui true
 
 Note: the git config commands above are not in the Assembla instructions.
 This is because they are not strictly required, but I find them to be immensely helpful, and they reduce the number of warnings git tends to spit out later on.
